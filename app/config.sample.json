@@ -1,19 +1,14 @@
 {
 	"readSettingsFromUrl": true,
-	"settingsReloadIntervalMinutes": 1,
+	"reloadIntervalSeconds": 20,
+	"cycleIntervalSeconds": 3,
 	"fullscreen": false,
-	"websites" : [
+	"tabs" : [
 		{
-			"url" : "https://github.com/KevinSheedy/chrome-tab-rotate.git",
-			"duration" : 10
+			"url" : "https://github.com/crehders/chrome-tab-rotate"
 		},
 		{
-			"url" : "https://chrome.google.com/webstore/detail/tab-rotate/pjgjpabbgnnoohijnillgbckikfkbjed",
-			"duration" : 10
-		},
-		{
-			"url" : "https://ie.linkedin.com/in/kevinsheedy",
-			"duration" : 10
+			"url" : "chrome://extensions/"
 		}
 	]
 }

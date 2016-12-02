@@ -1,22 +1,19 @@
 var settingsApp = angular.module('settingsApp', ['ui']);
 
-settingsApp.controller('SettingsCtrl', function ($scope, $http) {
-
-
+settingsApp.controller('SettingsCtrl', function ($scope) {
 
 	var getDefaults = (function() {
-
 		var DEFAULT_CONFIG = {
 			source: "DIRECT",
-			url: "http://_url_to_your_config_file.json",
+			url: "/app/config.sample.json",
 			configFile: ""
-		}
+		};
 
 		jQuery.get("/app/config.sample.json", function(res) {
 			DEFAULT_CONFIG.configFile = res;
 
 			initScope();
-		})
+		});
 
 		return function() {
 			return jQuery.extend({}, DEFAULT_CONFIG);
@@ -31,7 +28,7 @@ settingsApp.controller('SettingsCtrl', function ($scope, $http) {
 
 		$scope.fetchSettings = function() {
 
-			$scope.httpStatusText = "pending..."
+			$scope.httpStatusText = "pending...";
 			$scope.isFetchInProgress = true;
 			jQuery.ajax({
 				url: $scope.settings.url,
@@ -42,17 +39,17 @@ settingsApp.controller('SettingsCtrl', function ($scope, $http) {
 					$scope.$apply();
 					Prism.highlightAll();
 				},
-				error: function(res) {
+				error: function() {
 					$scope.fetchSucceeded = false;
 					$scope.$apply();
 				},
-				complete: function(jqXHR, textStatus) {
+				complete: function() {
 					$scope.isFetchInProgress = false;
 					$scope.$apply();
 
 				}
 			});
-		}
+		};
 
 		$scope.validateConfigFile = function() {
 			try {
@@ -61,7 +58,7 @@ settingsApp.controller('SettingsCtrl', function ($scope, $http) {
 				return false;
 			}
 			return true;
-		}
+		};
 
 		$scope.isValidConfigFile = function(val) {
 			try {
@@ -70,12 +67,12 @@ settingsApp.controller('SettingsCtrl', function ($scope, $http) {
 				return false;
 			}
 			return true;
-		}
+		};
 
 		$scope.resetDefaults = function() {
 			$scope.settings = getDefaults();
 			$scope.form.$setDirty();
-		}
+		};
 
 		$scope.save = function() {
 			chrome.storage.sync.set($scope.settings, function() {
@@ -84,7 +81,7 @@ settingsApp.controller('SettingsCtrl', function ($scope, $http) {
 				$scope.form.$setPristine();
 				$scope.$apply();
 			});
-		}
+		};
 
 		$scope.reloadSettingsFromDisc = function() {
 
@@ -95,11 +92,11 @@ settingsApp.controller('SettingsCtrl', function ($scope, $http) {
 				$scope.$apply();
 			})
 
-		}
+		};
 
 		$scope.clearStorage = function() {
 			chrome.storage.sync.clear();
-		}
+		};
 
 		$scope.settings = getDefaults();
 		$scope.reloadSettingsFromDisc();
@@ -132,19 +129,19 @@ settingsApp.controller('SettingsCtrl', function ($scope, $http) {
 				return "Saved";
 			else
 				return "";
-		}
+		};
 
 		$scope.alwaysTrue = function() {
 			return true;
-		}
+		};
 
 		$scope.alwaysFalse = function() {
 			return false;
-		}
+		};
 
 		$scope.isValidUrl = function() {
 			return $scope.form.url.$pristine || $scope.fetchSucceeded;
-		}
+		};
 
 	}
 
@@ -155,7 +152,7 @@ angular.module('Prism', []).
 	directive('prism', [function() {
 		return {
 			restrict: 'A',
-			link: function ($scope, element, attrs) {
+			link: function ($scope, element) {
 				element.ready(function() {
 					Prism.highlightElement(element[0]);
 				});
